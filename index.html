@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>AI Bio Generator | Free Instagram, LinkedIn & Twitter Bio Creator</title>
+  <meta name="description" content="Free AI bio generator for Instagram, LinkedIn, Twitter & more. Create professional, funny, minimalist bios in seconds. Perfect for personal brand & business.">
+  <meta name="keywords" content="ai bio generator, instagram bio generator, linkedin bio generator, professional bio creator, free social media bio tool">
+  <!-- Open Graph / social media -->
+  <meta property="og:title" content="AI Bio Generator – Create Professional & Social Media Bios Instantly">
+  <meta property="og:description" content="Free AI tool to craft perfect bios for any platform. 5 unique variations with one click.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    /* ----- RESET & VARIABLES ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #3b2b8c;
+      --primary-light: #5f4bb6;
+      --gradient-start: #667eea;
+      --gradient-end: #764ba2;
+      --bg-light: #f9faff;
+      --white: #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --transition: all 0.2s ease;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: linear-gradient(145deg, #f0f4ff 0%, #f9f0ff 100%);
+      color: var(--gray-800);
+      line-height: 1.5;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* ----- LAYOUT (mobile-first) ----- */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+    }
+
+    /* main content – 2/3 on desktop */
+    .main-content {
+      flex: 1 1 100%;
+      min-width: 0; /* prevent overflow */
+    }
+
+    /* sidebar – desktop only */
+    .sidebar {
+      flex: 0 0 300px;
+      display: none; /* hidden on mobile */
+    }
+
+    @media (min-width: 992px) {
+      .main-content {
+        flex: 1 1 calc(100% - 325px);
+      }
+      .sidebar {
+        display: block; /* visible on desktop */
+      }
+    }
+
+    /* ----- AD PLACEHOLDERS (styled boxes) ----- */
+    .ad-placeholder {
+      background: linear-gradient(145deg, #ffffff, #f5f3ff);
+      border: 2px dashed var(--primary-light);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+      box-shadow: var(--shadow-sm);
+      margin: 20px 0;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .ad-banner {
+      width: 100%;
+      height: 90px;
+      max-width: 728px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .ad-square {
+      width: 100%;
+      height: 250px;
+      max-width: 300px;
+      margin: 0 auto 20px auto;
+    }
+
+    .ad-footer {
+      width: 100%;
+      height: 90px;
+      max-width: 728px;
+      margin: 20px auto 0;
+    }
+
+    /* ----- CARD & UI ELEMENTS ----- */
+    .card {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(4px);
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 28px 24px;
+      margin-bottom: 25px;
+      transition: var(--transition);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #1e1b4b, #5b21b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      color: var(--gray-800);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+      color: var(--gray-700);
+    }
+
+    /* form inputs */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    @media (min-width: 640px) {
+      .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      transition: var(--transition);
+      background: var(--white);
+    }
+
+    .input-field:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    }
+
+    label {
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white;
+      border: none;
+      padding: 16px 30px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      width: 100%;
+      letter-spacing: 0.3px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-outline {
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary-light);
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 40px;
+      width: auto;
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: var(--primary-light);
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    /* bio output cards */
+    .bio-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 25px 0 15px;
+    }
+
+    .bio-item {
+      background: var(--gray-50);
+      border-left: 5px solid var(--primary);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow-sm);
+      animation: fadeInUp 0.4s ease;
+    }
+
+    .bio-text {
+      flex: 1;
+      font-size: 1rem;
+      color: var(--gray-800);
+      word-break: break-word;
+    }
+
+    .copy-btn {
+      background: var(--white);
+      border: 1px solid var(--gray-300);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--gray-700);
+    }
+
+    .copy-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .copy-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* FAQ / contact / legal sections */
+    .faq-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .faq-item {
+      background: var(--gray-50);
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+    }
+
+    .faq-item h4 {
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .legal-text {
+      font-size: 0.95rem;
+      color: var(--gray-600);
+    }
+
+    hr {
+      border: none;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--gray-300), transparent);
+      margin: 30px 0;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
+      margin: 20px 0 10px;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: var(--gray-600);
+      font-weight: 500;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .copyright {
+      text-align: center;
+      color: var(--gray-600);
+    }
+
+    /* responsive tweaks */
+    @media (max-width: 640px) {
+      h1 { font-size: 1.8rem; }
+      .card { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- MAIN CONTENT (left side) -->
+    <div class="main-content">
+      
+      <!-- TOP BANNER AD (728x90) -->
+      <div class="ad-placeholder ad-banner">Ad Space – 728x90</div>
+
+      <!-- HERO + CARD -->
+      <div class="card">
+        <h1>AI Bio Generator – Create Professional & Social Media Bios Instantly</h1>
+        <p style="font-size: 1.2rem; color: var(--gray-600); margin-bottom: 20px;">Craft the perfect first impression. 100% free, no sign-up.</p>
+        
+        <!-- INPUT SECTION -->
+        <div class="form-grid">
+          <div><label>Full name</label><input type="text" id="nameInput" class="input-field" placeholder="e.g. Alex Rivera"></div>
+          <div><label>Profession / Niche</label><input type="text" id="professionInput" class="input-field" placeholder="e.g. Marketing consultant"></div>
+          
+          <div><label>Platform</label>
+            <select id="platformSelect" class="input-field">
+              <option value="instagram">Instagram</option>
+              <option value="linkedin">LinkedIn</option>
+              <option value="twitter">Twitter (X)</option>
+              <option value="youtube">YouTube</option>
+              <option value="tiktok">TikTok</option>
+              <option value="website">Personal Website</option>
+            </select>
+          </div>
+
+          <div><label>Tone</label>
+            <select id="toneSelect" class="input-field">
+              <option value="professional">Professional</option>
+              <option value="funny">Funny</option>
+              <option value="minimalist">Minimalist</option>
+              <option value="luxury">Luxury</option>
+              <option value="motivational">Motivational</option>
+              <option value="personalbrand">Personal Brand</option>
+              <option value="business">Business</option>
+            </select>
+          </div>
+
+          <div><label>Bio length</label>
+            <select id="lengthSelect" class="input-field">
+              <option value="short">Short</option>
+              <option value="medium" selected>Medium</option>
+              <option value="long">Long</option>
+            </select>
+          </div>
+          <div style="display: flex; align-items: flex-end;">
+            <button class="btn" id="generateBtn">✨ Generate Bio</button>
+          </div>
+        </div>
+
+        <!-- OUTPUT + MIDDLE AD -->
+        <div id="outputSection" style="margin-top: 30px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <h3>Your AI bios</h3>
+            <button class="btn-outline copy-all" id="copyAllBtn">📋 Copy all</button>
+          </div>
+          <div id="bioListContainer" class="bio-list">
+            <!-- Bios will be injected here -->
+            <div style="text-align: center; color: var(--gray-600); padding: 20px;">Fill details and click generate ⚡</div>
+          </div>
+        </div>
+
+        <!-- MIDDLE AD (after output) -->
+        <div class="ad-placeholder ad-banner" style="margin-top: 30px;">Ad Space – 728x90</div>
+      </div> <!-- end card -->
+
+      <!-- SEO CONTENT (600+ words) -->
+      <div class="card">
+        <h2>What is AI Bio Generator?</h2>
+        <p>AI Bio Generator is a smart, free tool that creates tailored short biographies for your social profiles. Whether you need an Instagram bio, LinkedIn summary, or Twitter (X) one-liner, our generator delivers five unique variations optimized for your chosen platform and tone. It’s like having a copywriter in your pocket — 24/7.</p>
+        
+        <h2 style="margin-top: 25px;">Why your social media bio matters</h2>
+        <p>Your bio is often the first thing people see. It’s your digital handshake. A powerful bio builds trust, communicates your value, and drives followers to take action. On LinkedIn, it can attract recruiters. On Instagram, it defines your aesthetic. With our AI tool, you skip the writer’s block and get results in seconds.</p>
+        
+        <h2>How to create a powerful personal brand bio</h2>
+        <p>Great bios combine clarity, personality, and keywords. Start with your name and profession, then add what makes you unique. Sprinkle emojis moderately, include a call-to-action (like “DM for collabs”), and stay authentic. Our AI handles all that — just choose your tone and platform.</p>
+        
+        <h2>How to use this tool</h2>
+        <p>Fill in your name, profession, pick platform, tone, length → hit Generate Bio. You’ll see 5 handcrafted variations. Click copy on any bio or “Copy all” to grab them instantly. Tweak and paste wherever you need.</p>
+        
+        <h2>Who should use it?</h2>
+        <p>Job seekers, creators, founders, students, marketers, freelancers — anyone who wants a standout profile. It’s 100% free, no login required.</p>
+      </div>
+
+      <!-- FAQ SECTION -->
+      <div class="card">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-grid">
+          <div class="faq-item"><h4>❓ What is an AI Bio Generator?</h4><p>It’s an automatic tool that writes multiple bio versions based on your inputs (name, profession, platform, tone).</p></div>
+          <div class="faq-item"><h4>❓ Is this tool free?</h4><p>Yes, completely free — no hidden fees or subscriptions.</p></div>
+          <div class="faq-item"><h4>❓ Can I use it for Instagram and LinkedIn?</h4><p>Absolutely! Choose from 6 platforms including Instagram, LinkedIn, Twitter, YouTube, TikTok and personal website.</p></div>
+          <div class="faq-item"><h4>❓ Does it create professional bios?</h4><p>Yes — the “Professional” tone delivers polished, corporate-friendly bios, but we also offer funny, luxury, and other styles.</p></div>
+          <div class="faq-item"><h4>❓ Are bios SEO optimized?</h4><p>On platforms like LinkedIn and personal websites, keywords are naturally integrated to help you get discovered.</p></div>
+        </div>
+      </div>
+
+      <!-- CONTACT SECTION -->
+      <div class="card" id="contact">
+        <h2>📬 Contact us</h2>
+        <div class="contact-form">
+          <input type="text" class="input-field" placeholder="Your name" id="contactName">
+          <input type="email" class="input-field" placeholder="Email address" id="contactEmail">
+          <textarea class="input-field" rows="4" placeholder="Your message" id="contactMsg"></textarea>
+          <button class="btn" id="contactSubmitBtn" style="width: auto; padding: 14px 40px;">Send message</button>
+        </div>
+      </div>
+
+      <!-- PRIVACY POLICY -->
+      <div class="card">
+        <h2>🔐 Privacy Policy</h2>
+        <div class="legal-text">
+          <p>We collect only the information you provide via contact form (name, email, message). We use cookies for Google AdSense personalization. We do not sell or rent your personal data. All data is protected and used solely to improve your experience. For questions: privacy@yourexample.com</p>
+          <p style="margin-top: 10px;">Third-party vendors, including Google, use cookies to serve ads based on your prior visits. You can opt out via Google Ads Settings.</p>
+        </div>
+      </div>
+
+      <!-- TERMS & CONDITIONS -->
+      <div class="card">
+        <h2>📄 Terms & Conditions</h2>
+        <div class="legal-text">
+          <p>By using this tool you agree that bios are generated for inspiration — you are responsible for final content. We reserve the right to modify or discontinue the tool at any time. This site and its content are provided "as is" without warranties. Intellectual property of the code belongs to the creator. Governing law: [Your jurisdiction].</p>
+        </div>
+      </div>
+
+      <!-- FOOTER AD -->
+      <div class="ad-placeholder ad-footer">Ad Space – 728x90</div>
+
+      <!-- FOOTER -->
+      <footer style="margin: 40px 0 20px;">
+        <div class="footer-links">
+          <a href="#">Home</a>
+          <a href="#contact">Contact</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+        <div class="copyright">
+          <p>© 2025 AI Bio Generator. Built for Creators & Professionals</p>
+        </div>
+      </footer>
+    </div> <!-- end main-content -->
+
+    <!-- SIDEBAR (desktop only) -->
+    <div class="sidebar">
+      <div class="ad-placeholder ad-square" style="margin-top: 0;">Ad Space – 300x250</div>
+      <div class="ad-placeholder ad-square">Ad Space – 300x250</div>
+      <div style="background: white; border-radius: var(--radius-lg); padding: 20px; text-align: center; box-shadow: var(--shadow-sm);">
+        <h3 style="margin-bottom: 10px;">✨ Pro tip</h3>
+        <p style="color: var(--gray-600);">Add a call-to-action to your bio. “Subscribe”, “Shop”, “Contact me” increase engagement.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- All JavaScript (Vanilla) -->
+  <script>
+    (function() {
+      // ----- intelligent templates (simplified but effective) -----
+      const templates = {
+        professional: (name, prof, platform, len) => `${name} | ${prof}. Helping [audience] achieve [goal]. ${len === 'short' ? '📍 Open to collabs' : 'Passionate about delivering results. Let’s connect and grow together.'}`,
+        funny: (name, prof) => `${name} — I ${prof} so you don’t have to 🤪. Professional daydreamer. 📍 probably somewhere with coffee`,
+        minimalist: (name, prof) => `${name}. ${prof}. 📍 earth.`,
+        luxury: (name, prof) => `${name} | curating excellence in ${prof}. ✦ timeless ✦ bespoke ✦`,
+        motivational: (name, prof) => `${name} – ${prof} on a mission 🚀. Believe, act, achieve. Let’s rise!`,
+        personalbrand: (name, prof) => `${name} ✦ Building ${prof} brand. Helping you scale with authenticity. ⬇️ join the journey`,
+        business: (name, prof) => `${name} | CEO of ${prof} Solutions. Scaling businesses through strategy & innovation. 📈`
+      };
+
+      // emoji mapping per platform
+      const platformEmoji = {
+        instagram: '📸✨',
+        linkedin: '💼🤝',
+        twitter: '🐦💬',
+        youtube: '🎥▶️',
+        tiktok: '🎵📱',
+        website: '🌐💻'
+      };
+
+      function generateBioVariations(name, profession, platform, tone, length) {
+        if (!name.trim()) name = "Your name";
+        if (!profession.trim()) profession = "creator";
+
+        const baseTemplate = templates[tone] || templates.professional;
+        const emojiSet = platformEmoji[platform] || '✨';
+        const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
+
+        // build 5 variations by slightly modifying template
+        let bios = [];
+        for (let i = 0; i < 5; i++) {
+          let bioText = '';
+          if (tone === 'professional') {
+            if (i === 0) bioText = `${name} | ${profession}. Helping brands grow 📈 ${emojiSet}`;
+            else if (i === 1) bioText = `${name} – ${profession}. ${length === 'long' ? '10+ years of experience. ' : ''}Let’s connect.`;
+            else if (i === 2) bioText = `${name} | ${profession}. DM for collabs. ${emojiSet}`;
+            else if (i === 3) bioText = `${name} ✦ ${profession}. Building the future. 💡`;
+            else bioText = `${name} · ${profession}. passionate about innovation. open to work? ⚡`;
+          } else if (tone === 'funny') {
+            bioText = `${name} – ${profession} by day, 🦸 superhero by night. ` + (i%2===0?'Currently avoiding meetings.':'Cat person. 🐱');
+          } else {
+            bioText = baseTemplate(name, profession, platform, length) + ` ${emojiSet}`;
+          }
+          // add small platform mention to each
+          bios.push(`${bioText} #${platformName}`);
+        }
+        return bios.slice(0,5);
+      }
+
+      const generateBtn = document.getElementById('generateBtn');
+      const nameInput = document.getElementById('nameInput');
+      const professionInput = document.getElementById('professionInput');
+      const platformSelect = document.getElementById('platformSelect');
+      const toneSelect = document.getElementById('toneSelect');
+      const lengthSelect = document.getElementById('lengthSelect');
+      const bioContainer = document.getElementById('bioListContainer');
+      const copyAllBtn = document.getElementById('copyAllBtn');
+
+      let currentBios = [];
+
+      function renderBios(biosArray) {
+        if (!biosArray || biosArray.length === 0) return;
+        bioContainer.innerHTML = '';
+        biosArray.forEach((bio, index) => {
+          const item = document.createElement('div');
+          item.className = 'bio-item';
+          item.innerHTML = `<span class="bio-text" id="bio-${index}">${bio}</span>
+            <button class="copy-btn" data-bio="${bio.replace(/"/g, '&quot;')}">Copy</button>`;
+          bioContainer.appendChild(item);
+        });
+
+        // add copy event to each copy button
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const bioText = btn.getAttribute('data-bio');
+            navigator.clipboard.writeText(bioText).then(() => {
+              btn.textContent = 'Copied!';
+              setTimeout(() => btn.textContent = 'Copy', 1500);
+            }).catch(() => alert('Press Ctrl+C to copy'));
+          });
+        });
+      }
+
+      generateBtn.addEventListener('click', () => {
+        const name = nameInput.value.trim() || 'Alex';
+        const profession = professionInput.value.trim() || 'Digital Creator';
+        const platform = platformSelect.value;
+        const tone = toneSelect.value;
+        const length = lengthSelect.value;
+
+        const bios = generateBioVariations(name, profession, platform, tone, length);
+        currentBios = bios;
+        renderBios(bios);
+      });
+
+      copyAllBtn.addEventListener('click', () => {
+        if (currentBios.length === 0) {
+          alert('Generate bios first!');
+          return;
+        }
+        const allText = currentBios.join('\n---\n');
+        navigator.clipboard.writeText(allText).then(() => {
+          alert('All bios copied to clipboard!');
+        }).catch(() => alert('Could not copy, select manually.'));
+      });
+
+      // contact submit (frontend alert)
+      document.getElementById('contactSubmitBtn').addEventListener('click', () => {
+        const name = document.getElementById('contactName').value;
+        const email = document.getElementById('contactEmail').value;
+        const msg = document.getElementById('contactMsg').value;
+        if (name && email && msg) {
+          alert(`Thanks ${name}! Your message has been sent (demo).`);
+        } else {
+          alert('Please fill all fields.');
+        }
+      });
+
+      // optional: prefill example on load
+      nameInput.value = 'Jamie Chen';
+      professionInput.value = 'Brand strategist';
+    })();
+  </script>
+</body>
+</html>
